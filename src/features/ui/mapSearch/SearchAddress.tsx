@@ -1,0 +1,1 @@
+// Nominatim test for sending when enter and saving to localhost cache for now
