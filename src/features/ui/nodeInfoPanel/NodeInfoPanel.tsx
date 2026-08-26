@@ -62,12 +62,12 @@ const NodeInfoPanel = () => {
 
                 <NodeDetails node={node} />
 
-                <PanoramaGallery node={node} onSelect={setPanoramaUrl} />
+                {/* <PanoramaGallery node={node} onSelect={setPanoramaUrl} /> */}
             </div>
 
-            {panoramaUrl && (
+            {/* {panoramaUrl && (
                 <PanoramaOverlay imageUrl={panoramaUrl} onClose={() => setPanoramaUrl(null)} />
-            )}
+            )} */}
         </>
     )
 }
