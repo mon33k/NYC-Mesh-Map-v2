@@ -52,7 +52,7 @@ const MapContainer = () => {
 
             {map && <MapArea map={map} />}
 
-            <MapSearch map={map} />
+            <MapSearch />
             <NodeInfoPanel />
 
             <button
