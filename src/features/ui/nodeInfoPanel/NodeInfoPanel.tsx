@@ -3,13 +3,13 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { nodeTypeColors } from '../../../types/models'
 import { clearSelectedNode, selectSelectedNode } from '../uiSlice'
 import NodeDetails from './NodeDetails'
-import PanoramaGallery from './PanoramaGallery'
-import PanoramaOverlay from './PanoramaOverlay'
+// import PanoramaGallery from './PanoramaGallery'
+// import PanoramaOverlay from './PanoramaOverlay'
 
 const NodeInfoPanel = () => {
     const dispatch = useAppDispatch()
     const node = useAppSelector(selectSelectedNode)
-    const [panoramaUrl, setPanoramaUrl] = useState<string | null>(null)
+    // const [panoramaUrl, setPanoramaUrl] = useState<string | null>(null)
 
     if (!node) return null
 
@@ -19,7 +19,7 @@ const NodeInfoPanel = () => {
 
     function closePanel() {
         dispatch(clearSelectedNode())
-        setPanoramaUrl(null)
+        // setPanoramaUrl(null)
     }
 
     return (

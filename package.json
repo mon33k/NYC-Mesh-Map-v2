@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:panoramas": "node scripts/build-panoramas.mjs",
+    "getMeshData": "node --trace-uncaught --import=tsx ./scripts/getData.ts",
     "server": "tsx server/index.ts"
   },
   "dependencies": {

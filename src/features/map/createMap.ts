@@ -1,13 +1,13 @@
 import * as maplibregl from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
-import { mapStyle } from '../ui/mapStyle'
+// import { mapStyle } from '../ui/mapStyle'
 
 maplibregl.setWorkerUrl(workerUrl)
 
 export function createMap(container: HTMLDivElement) {
     const map = new maplibregl.Map({
         container,
-        style: mapStyle,
+        style: 'https://vector.openstreetmap.org/styles/shortbread/graybeard.json', // https://github.com/openstreetmap/vectortile-website/blob/main/build-styles.ts
         center: [-73.9596, 40.72],
         zoom: 11,
     })
