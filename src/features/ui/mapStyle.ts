@@ -1,21 +1,31 @@
 import type { StyleSpecification } from 'maplibre-gl'
 
+// Need to fix this for different map styles for now I am using a hardcoded mapStyle in createMaps.ts
+
+// const mapStyleOptions = {
+//     'svwd03': '/styles/svwd/svwd03style.json',
+//     'graybeard': '/styles/shortbread/graybeard.json',
+//     'eclipse': '/styles/shortbread/eclipse.json',
+//     'neutrino': '/styles/shortbread/neutrino.json',
+//     'shadow': '/styles/shortbread/shadow.json',
+// }
+
 export const mapStyle: StyleSpecification = {
     version: 8,
     sources: {
-        carto: {
-            type: 'raster',
+        "maplibre-streets": {
+            type: 'vector',
             tiles: [
-                'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                'https://vector.openstreetmap.org/shortbread_v1/{z}/{x}/{y}.mvt',
             ],
-            tileSize: 256,
+            // tileSize: 256,
         },
     },
     layers: [
         {
-            id: 'carto-light',
-            type: 'raster',
-            source: 'carto',
+            id: 'svwd03',
+            type: 'line',
+            source: 'maplibre',
         },
     ],
 }
