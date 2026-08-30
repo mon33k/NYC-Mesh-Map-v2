@@ -1,4 +1,3 @@
-//import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { nodeTypeColors } from '../../../types/models'
 import { clearSelectedNode, selectSelectedNode } from '../uiSlice'
