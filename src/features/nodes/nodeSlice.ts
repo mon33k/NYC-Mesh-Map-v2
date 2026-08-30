@@ -3,7 +3,7 @@ import type { Node } from '../../types/models';
 import type { RootState } from '../../app/store';
 
 export const fetchNodes = createAsyncThunk('nodes/fetchNodes', async () => {
-    const localData = await import('../../data/nodes.json');
+    const localData = await import('../../dummy/nodes.json');
 
     return localData.default;
 });

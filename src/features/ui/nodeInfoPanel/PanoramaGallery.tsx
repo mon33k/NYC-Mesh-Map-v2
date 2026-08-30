@@ -1,4 +1,4 @@
-import panoramaManifest from '../../../data/panoramas.json'
+import panoramaManifest from '../../../dummy/panoramas.json'
 import type { Node } from '../../../types/models'
 
 type PanoramaMap = Record<string, string[]>
@@ -38,7 +38,7 @@ const PanoramaGallery = ({
                         onClick={() => onSelect(url)}
                         aria-label={`Open panorama ${index + 1}`}
                     >
-                        <img className="h-20 w-28 object-cover" src={url} alt={`Panorama ${index + 1} for node ${node.network_number}`}/>
+                        <img className="h-20 w-28 object-cover" src={url} alt={`Panorama ${index + 1} for node ${node.network_number}`} />
 
                     </button>
                 ))}

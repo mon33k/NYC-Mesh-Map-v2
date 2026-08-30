@@ -3,7 +3,7 @@ import type { RootState } from '../../app/store';
 import type { Device, Link } from '../../types/models';
 
 export const fetchDevices = createAsyncThunk('devices/fetchDevices', async () => {
-    const localData = await import('../../data/devices.json');
+    const localData = await import('../../dummy/devices.json');
     return localData.default;
 });
 
