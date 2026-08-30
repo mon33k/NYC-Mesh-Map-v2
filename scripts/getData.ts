@@ -12,7 +12,7 @@ if (!MESHDB_API_URL && !MESHDB_API_TOKEN) {
 }
 
 async function getMeshDbData(endpoint: string) {
-    const response = await fetch(`${MESHDB_API_URL}/${endpoint}/?format=json&page_size=4000`,
+    const response = await fetch(`${MESHDB_API_URL}/api/v1/${endpoint}/?format=json&page_size=4000`,
         {
             headers: {
                 Authorization: `Token ${MESHDB_API_TOKEN}`,

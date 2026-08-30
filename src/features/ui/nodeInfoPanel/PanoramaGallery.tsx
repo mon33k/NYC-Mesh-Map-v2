@@ -1,14 +1,11 @@
-import panoramaManifest from '../../../data/panoramas.json'
 import type { Node } from '../../../types/models'
-
-type PanoramaMap = Record<string, string[]>
 
 type PanoramaGalleryProps = {
     node: Node
     onSelect: (url: string) => void
 }
 
-const panoramasByNetworkNumber = panoramaManifest as PanoramaMap
+const panoramasByNetworkNumber: Record<string, string[]> = {}
 
 const PanoramaGallery = ({
     node,
