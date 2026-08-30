@@ -35,24 +35,31 @@ const MapContainer = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (!containerRef.current) return
+        if (!map || !containerRef.current) return
 
         const mapInstance = createMap(containerRef.current)
+
+        const resizeObserver = new ResizeObserver(() => {
+            map.resize()
+        })
+
+        resizeObserver.observe(containerRef.current)
 
         setMap(mapInstance)
 
         return () => {
             mapInstance.remove()
+            resizeObserver.disconnect()
         }
-    }, [])
+    }, [map])
 
     return (
-        <div className="relative h-full w-full">
+        <div className="map-container relative h-full w-full">
             <div ref={containerRef} className="h-full w-full" />
 
             {map && <MapArea map={map} />}
 
-            <MapSearch map={map} />
+            <MapSearch />
             <NodeInfoPanel />
 
             <button

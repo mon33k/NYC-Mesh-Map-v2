@@ -167,7 +167,7 @@ export interface Sector {
     links_from: { id: string }[];
     links_to: { id: string }[];
     name: string | null;
-    status: 'Inactive' | 'Active' | 'Potential';
+    status: string;
     install_date: string | null;
     abandon_date: string | null;
     notes: string | null;
