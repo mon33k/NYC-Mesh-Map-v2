@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { error } from 'node:console'
 import { writeFile } from 'node:fs/promises'
+import type { Node } from '../src/types/models.ts'
 
 const OUTPUT_DIR = 'src/data'
 
@@ -31,44 +32,55 @@ async function getMeshDbData(endpoint: string) {
     return response.json()
 }
 
-const nodes = await getMeshDbData('nodes')
-const installs = await getMeshDbData('installs')
-const buildings = await getMeshDbData('buildings')
-const devices = await getMeshDbData('devices')
-const links = await getMeshDbData('links')
-const sectors = await getMeshDbData('sectors')
+// const nodes = await getMeshDbData('nodes')
+// const installs = await getMeshDbData('installs')
+// const buildings = await getMeshDbData('buildings')
+// const devices = await getMeshDbData('devices')
+// const links = await getMeshDbData('links')
+// const sectors = await getMeshDbData('sectors')
 
-await writeFile(
-    `${OUTPUT_DIR}/nodes.json`, JSON.stringify(nodes, null, 2),
-)
+// console.log("nodes.results: ", nodes.results[0])
 
-await writeFile(
-    `${OUTPUT_DIR}/installs.json`, JSON.stringify(installs, null, 2),
-)
-
-await writeFile(
-    `${OUTPUT_DIR}/buildings.json`, JSON.stringify(buildings, null, 2),
-)
-
-await writeFile(
-    `${OUTPUT_DIR}/devices.json`, JSON.stringify(devices, null, 2),
-)
-
-await writeFile(
-    `${OUTPUT_DIR}/links.json`, JSON.stringify(links, null, 2),
-)
+const filteredNodes = (await getMeshDbData('nodes')).filter((node: Node) => {
+    return (
+        node.status === 'Active' &&
+        node.longitude != null &&
+        node.latitude != null
+    )
+})
 
 
 await writeFile(
-    `${OUTPUT_DIR}/sectors.json`, JSON.stringify(sectors, null, 2),
+    `${OUTPUT_DIR}/nodes.json`, JSON.stringify(filteredNodes, null, 2),
 )
 
-const nodeCount = Array.isArray(nodes) ? nodes.length : nodes.results?.length ?? 0
+// await writeFile(
+//     `${OUTPUT_DIR}/installs.json`, JSON.stringify(installs, null, 2),
+// )
 
-const installCount = Array.isArray(installs) ? installs.length : installs.results?.length ?? 0
+// await writeFile(
+//     `${OUTPUT_DIR}/buildings.json`, JSON.stringify(buildings, null, 2),
+// )
 
-console.log('Added successfully nodes.json')
-console.log(`Saved ${nodeCount} nodes`)
+// await writeFile(
+//     `${OUTPUT_DIR}/devices.json`, JSON.stringify(devices, null, 2),
+// )
 
-console.log('Added successfully installs.json')
-console.log(`Saved ${installCount} installs`)
+// await writeFile(
+//     `${OUTPUT_DIR}/links.json`, JSON.stringify(links, null, 2),
+// )
+
+
+// await writeFile(
+//     `${OUTPUT_DIR}/sectors.json`, JSON.stringify(sectors, null, 2),
+// )
+
+// const nodeCount = Array.isArray(nodes) ? nodes.length : nodes.results?.length ?? 0
+
+// const installCount = Array.isArray(installs) ? installs.length : installs.results?.length ?? 0
+
+// console.log('Added successfully nodes.json')
+// console.log(`Saved ${nodeCount} nodes`)
+
+// console.log('Added successfully installs.json')
+// console.log(`Saved ${installCount} installs`)
