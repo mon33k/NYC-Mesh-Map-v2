@@ -3,9 +3,11 @@ import type { Node } from '../../types/models';
 import type { RootState } from '../../app/store';
 
 export const fetchNodes = createAsyncThunk('nodes/fetchNodes', async () => {
-    const localData = await import('../../data/nodes.json');
-
-    return localData.default;
+    const response = await fetch('/api/nodes');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch nodes: ${response.statusText}`);
+    }
+    return response.json();
 });
 
 

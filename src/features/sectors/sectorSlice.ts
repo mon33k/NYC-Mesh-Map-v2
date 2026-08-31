@@ -3,11 +3,12 @@ import type { RootState } from '../../app/store'
 import type { Sector } from '../../types/models'
 
 export const fetchSectors = createAsyncThunk('sectors/fetchSectors', async () => {
-        const localData = await import('../../data/sectors.json')
-
-        return localData.default
-    },
-)
+    const response = await fetch('/api/sectors')
+    if (!response.ok) {
+        throw new Error(`Failed to fetch sectors: ${response.statusText}`)
+    }
+    return response.json()
+})
 
 interface SectorState {
     data: Sector[]

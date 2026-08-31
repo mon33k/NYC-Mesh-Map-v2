@@ -2,12 +2,12 @@ import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/tool
 import type { RootState } from '../../app/store'; 
 import type { Link } from '../../types/models';
 
-// Links need to connect to devices that connect to nodes
-
 export const fetchLinks = createAsyncThunk('links/fetchLinks', async () => {
-    const localData = await import('../../data/links.json');
-
-    return localData.default;
+    const response = await fetch('/api/links');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch links: ${response.statusText}`);
+    }
+    return response.json();
 });
 
 export interface Filters {
@@ -54,7 +54,6 @@ const linkSlice = createSlice({
                 })
                 .addCase(fetchLinks.fulfilled, (state, action) => {
                     state.status = 'succeeded';
-                    // fix strict casing here for link obj
                     state.data = action.payload.results;
                 })
                 .addCase(fetchLinks.rejected, (state, action) => {

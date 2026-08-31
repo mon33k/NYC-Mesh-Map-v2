@@ -3,8 +3,11 @@ import type { RootState } from '../../app/store';
 import type { Device, Link } from '../../types/models';
 
 export const fetchDevices = createAsyncThunk('devices/fetchDevices', async () => {
-    const localData = await import('../../data/devices.json');
-    return localData.default;
+    const response = await fetch('/api/devices');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch devices: ${response.statusText}`);
+    }
+    return response.json();
 });
 
 interface DeviceFilters {
