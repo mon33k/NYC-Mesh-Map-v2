@@ -3,10 +3,10 @@ import type { RootState } from '../../app/store'
 import type { Sector } from '../../types/models'
 
 export const fetchSectors = createAsyncThunk('sectors/fetchSectors', async () => {
-        const localData = await import('../../data/sectors.json')
+    const localData = await import('../../dummy/sectors.json')
 
-        return localData.default
-    },
+    return localData.default
+},
 )
 
 interface SectorState {

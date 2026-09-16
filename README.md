@@ -17,3 +17,10 @@ npm run dev
 - Redux
 - MapLibre
 - DeckGL
+
+## Podman
+
+```
+podman build . --tag willnilges:map-v2
+podman run --rm -it -p 8080:80 --name map-v2 willnilges:map-v2
+```

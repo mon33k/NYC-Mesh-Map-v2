@@ -1,11 +1,11 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import type { RootState } from '../../app/store'; 
+import type { RootState } from '../../app/store';
 import type { Link } from '../../types/models';
 
 // Links need to connect to devices that connect to nodes
 
 export const fetchLinks = createAsyncThunk('links/fetchLinks', async () => {
-    const localData = await import('../../data/links.json');
+    const localData = await import('../../dummy/links.json');
 
     return localData.default;
 });
@@ -48,20 +48,20 @@ const linkSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-            builder
-                .addCase(fetchLinks.pending, (state) => {
-                    state.status = 'loading';
-                })
-                .addCase(fetchLinks.fulfilled, (state, action) => {
-                    state.status = 'succeeded';
-                    // fix strict casing here for link obj
-                    state.data = action.payload.results;
-                })
-                .addCase(fetchLinks.rejected, (state, action) => {
-                    state.status = 'failed';
-                    state.error = action.error.message || null;
-                });
-        },
+        builder
+            .addCase(fetchLinks.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchLinks.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                // fix strict casing here for link obj
+                state.data = action.payload.results;
+            })
+            .addCase(fetchLinks.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            });
+    },
 });
 
 
