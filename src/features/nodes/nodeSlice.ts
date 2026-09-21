@@ -41,7 +41,7 @@ const nodeSlice = createSlice({
             })
             .addCase(fetchNodes.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.data = action.payload.results;
+                state.data = action.payload;
             })
             .addCase(fetchNodes.rejected, (state, action) => {
                 state.status = 'failed';

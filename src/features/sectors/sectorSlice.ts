@@ -32,7 +32,7 @@ const sectorSlice = createSlice({
             })
             .addCase(fetchSectors.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.data = action.payload.results
+                state.data = action.payload;
             })
             .addCase(fetchSectors.rejected, (state, action) => {
                 state.status = 'failed'

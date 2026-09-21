@@ -54,8 +54,7 @@ const linkSlice = createSlice({
                 })
                 .addCase(fetchLinks.fulfilled, (state, action) => {
                     state.status = 'succeeded';
-                    // fix strict casing here for link obj
-                    state.data = action.payload.results;
+                    state.data = action.payload;
                 })
                 .addCase(fetchLinks.rejected, (state, action) => {
                     state.status = 'failed';

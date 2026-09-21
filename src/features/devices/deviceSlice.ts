@@ -50,7 +50,7 @@ const deviceSlice = createSlice({
             })
             .addCase(fetchDevices.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.data = action.payload.results;
+                state.data = action.payload;
             })
             .addCase(fetchDevices.rejected, (state, action) => {
                 state.status = 'failed';

@@ -14,7 +14,7 @@ const NodeInfoPanel = () => {
 
     const color = nodeTypeColors[node.type] ?? '#bcbec0'
 
-    const installNumbers = node.installs.map((install) => install.install_number).join(', ')
+    const installNumbers = (node.installs ?? []).map((install) => install.install_number).join(', ') // not every node has installs arr
 
     function closePanel() {
         dispatch(clearSelectedNode())

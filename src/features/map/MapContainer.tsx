@@ -35,12 +35,12 @@ const MapContainer = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (!map || !containerRef.current) return
+        if (!containerRef.current) return
 
         const mapInstance = createMap(containerRef.current)
 
         const resizeObserver = new ResizeObserver(() => {
-            map.resize()
+            mapInstance.resize()
         })
 
         resizeObserver.observe(containerRef.current)
@@ -51,7 +51,7 @@ const MapContainer = () => {
             mapInstance.remove()
             resizeObserver.disconnect()
         }
-    }, [map])
+    }, [])
 
     return (
         <div className="map-container relative h-full w-full">
