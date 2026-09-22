@@ -3,10 +3,10 @@ import type { Node } from '../../types/models';
 import type { RootState } from '../../app/store';
 
 export const fetchNodes = createAsyncThunk('nodes/fetchNodes', async () => {
-    const localData = await import('../../data/nodes.json');
-
-    return localData.default;
+    const response = await fetch('/api/nodes')
+    return response.json()
 });
+
 
 
 interface NodeState {

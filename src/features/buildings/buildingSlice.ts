@@ -15,8 +15,8 @@ type BuildingsState = {
 // Load buildings.json and store its results in Redux.
 export const fetchBuildings = createAsyncThunk('buildings/fetchBuildings',
     async (): Promise<BuildingsFile> => {
-        const buildingsFile = await import('../../data/buildings.json')
-        return buildingsFile.default
+        const response = await fetch('/api/buildings')
+        return response.json()
     },
 )
 

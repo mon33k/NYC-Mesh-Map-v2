@@ -5,9 +5,10 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 maplibregl.setWorkerUrl(workerUrl)
 
 export function createMap(container: HTMLDivElement) {
+
     const map = new maplibregl.Map({
         container,
-        style: 'https://vector.openstreetmap.org/styles/shortbread/graybeard.json', // https://github.com/openstreetmap/vectortile-website/blob/main/build-styles.ts
+        style: '/api/map-style',
         center: [-73.9596, 40.72],
         zoom: 11,
     })

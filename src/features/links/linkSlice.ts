@@ -5,9 +5,8 @@ import type { Link } from '../../types/models';
 // Links need to connect to devices that connect to nodes
 
 export const fetchLinks = createAsyncThunk('links/fetchLinks', async () => {
-    const localData = await import('../../data/links.json');
-
-    return localData.default;
+    const response = await fetch('/api/links')
+    return response.json()
 });
 
 export interface Filters {
