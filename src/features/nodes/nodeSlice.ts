@@ -52,4 +52,6 @@ const nodeSlice = createSlice({
 
 export const { setNodes, clearNodes } = nodeSlice.actions;
 export const selectNodes = (state: RootState) => state.nodes.data;
+export const selectNodeStatus = (state: RootState) => state.nodes.status
+
 export default nodeSlice.reducer;

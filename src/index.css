@@ -49,3 +49,9 @@ body {
 body.panorama-open [data-testid="map-search"] {
   display: none;
 }
+
+@media (max-width: 639px) {
+    .maplibregl-ctrl-bottom-right {
+        display: none;
+    }
+}

@@ -65,10 +65,11 @@ const MapContainer = () => {
             <button
                 type="button"
                 onClick={resetMapView}
-                className="absolute right-4 top-4 z-10 rounded bg-white px-3 py-2 text-sm shadow"
-            >
+                className="absolute right-4 top-4 z-30 rounded bg-white px-2 py-2 text-xs shadow sm:px-3 sm:text-sm"
+                >
                 Reset view
-            </button>
+            </button>;
+
         </div>
     )
 }

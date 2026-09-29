@@ -23,8 +23,7 @@ const NodeInfoPanel = () => {
 
     return (
         <>
-            <div className="absolute inset-x-4 bottom-4 top-20 z-20 overflow-y-auto bg-white shadow-xl sm:left-4 sm:right-auto sm:w-72">
-                <header className="flex items-center justify-between border-b p-3">
+                <div className="absolute bottom-4 left-4 right-4 z-20 max-h-[60vh] overflow-y-auto bg-white shadow-xl sm:left-4 sm:right-auto sm:top-20 sm:w-72 sm:max-h-none">                <header className="flex items-center justify-between border-b p-3">
                     <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} />
 
