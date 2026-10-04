@@ -15,10 +15,7 @@ pipeline {
         }
         stage("Build Docker image") {
             steps {
-                script {
-                    sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
-                    env.IMAGE_DIGEST = sh(returnStdout: true, script: "docker inspect --format='{{ index .RepoDigests 0 }}' ${IMAGE_REPO_NAME}:${IMAGE_TAG} | cut -d'@' -f2").trim()
-                }
+                sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
             }
         }
         stage("Docker Login") {
@@ -32,6 +29,7 @@ pipeline {
             steps {
                 script {
                     sh "docker push ${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                    env.IMAGE_DIGEST = sh(returnStdout: true, script: "docker inspect --format='{{ index .RepoDigests 0 }}' ${IMAGE_REPO_NAME}:${IMAGE_TAG} | cut -d'@' -f2").trim()
                 }
             }
         }
