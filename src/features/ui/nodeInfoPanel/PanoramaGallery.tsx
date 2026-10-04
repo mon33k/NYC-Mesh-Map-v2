@@ -34,7 +34,7 @@ const PanoramaGallery = ({
                     data.images.forEach((img: { url: string }) => urls.push(img.url))
                 }
                 if (data?.additional_images && typeof data.additional_images === 'object') {
-                    Object.values(data.additional_images).forEach((relatedImages: { url: string }[]) => {
+                    Object.values(data.additional_images as Record<string, { url: string }[]>).forEach((relatedImages: { url: string }[]) => {
                         if (Array.isArray(relatedImages)) {
                             relatedImages.forEach((img: { url: string }) => urls.push(img.url))
                         }
