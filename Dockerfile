@@ -26,7 +26,7 @@ RUN npm ci --omit=dev && \
 # Production stage
 FROM nginx:alpine
 
-RUN apk add --no-cache dumb-init libstdc++
+RUN apk add --no-cache dumb-init libstdc++ libatomic
 
 WORKDIR /app
 
