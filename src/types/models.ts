@@ -182,12 +182,18 @@ export interface Sector {
 }
 
 export const nodeTypeColors: Record<string, string> = {
-    Supernode: '#f7941d',
+    Supernode: '#92278f',
     Hub: '#00aeef',
-    POP: '#8dc63f',
-    AP: '#92278f',
-    Standard: '#eb0c0c',
+    AP: '#01409e',
+    POP: '#dace21',
+    Standard: '#70b60f',
     Remote: '#f9a01b',
+}
+
+export type NodeLegendFilters = {
+    type: string,
+    active: boolean,
+    inactive: boolean,
 }
 
 export const defaultNodeColor = '#e63946'
