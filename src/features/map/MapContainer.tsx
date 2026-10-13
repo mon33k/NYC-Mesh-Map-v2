@@ -7,6 +7,7 @@ import { createMap } from './createMap'
 import MapArea from './MapArea'
 import MapSearch from '../ui/mapSearch/MapSearch'
 import NodeInfoPanel from '../ui/nodeInfoPanel/NodeInfoPanel'
+import NodeLegendPanel from '../ui/NodeLegendPanel'
 import { fetchLinks } from '../links/linkSlice'
 import { fetchDevices } from '../devices/deviceSlice'
 import { fetchSectors } from '../sectors/sectorSlice'
@@ -59,6 +60,7 @@ const MapContainer = () => {
 
             {map && <MapArea map={map} />}
 
+            <NodeLegendPanel /> 
             <MapSearch />
             <NodeInfoPanel />
 

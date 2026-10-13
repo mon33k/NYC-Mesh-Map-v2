@@ -1,28 +1,28 @@
 type NodeColor = [number, number, number, number]
 
 const colorsByKey: Record<string, NodeColor> = {
-    default: [170, 170, 170, 255],
-    standard: [255, 45, 85, 255],
-    active: [255, 45, 85, 255],
-    remote: [255, 45, 85, 255],
-    kiosk: [255, 45, 85, 255],
-    'nn-assigned': [255, 166, 201, 255],
-    dead: [170, 170, 170, 255],
-    hub: [90, 200, 250, 255],
-    omni: [90, 200, 250, 255],
-    supernode: [0, 122, 255, 255],
-    sector: [0, 122, 255, 255],
-    backbone: [0, 122, 255, 255],
-    linknyc: [1, 162, 235, 255],
-    pop: [246, 190, 0, 255],
-    ap: [0, 255, 0, 255],
-    sn: [0, 0, 0, 255],
-    'non-hub': [255, 45, 85, 255],
-    potential: [119, 119, 119, 255],
-    'potential-hub': [119, 119, 119, 255],
-    'potential-supernode': [119, 119, 119, 255],
-    vpn: [204, 153, 255, 255],
-    fiber: [246, 190, 0, 255],
+    default: [170, 170, 170, 255], // Gray
+    standard: [112, 182, 15, 255], // Green — #70b60f
+    active: [255, 45, 85, 255], // Pink-red
+    remote: [249, 160, 27, 255], // Orange — #f9a01b
+    kiosk: [255, 45, 85, 255], // Pink-red
+    'nn-assigned': [255, 166, 201, 255], // Light pink
+    dead: [170, 170, 170, 255], // Gray
+    hub: [0, 174, 239, 255], // Cyan-blue — #00aeef
+    omni: [90, 200, 250, 255], // Light blue
+    supernode: [146, 39, 143, 255], // Purple — #92278f
+    sector: [0, 122, 255, 255], // Blue
+    backbone: [0, 122, 255, 255], // Blue
+    linknyc: [1, 162, 235, 255], // Cyan-blue
+    pop: [218, 206, 33, 255], // Yellow — #dace21
+    ap: [1, 64, 158, 255], // Dark blue — #01409e
+    sn: [0, 0, 0, 255], // Black
+    'non-hub': [255, 45, 85, 255], // Pink-red
+    potential: [119, 119, 119, 255], // Dark gray
+    'potential-hub': [119, 119, 119, 255], // Dark gray
+    'potential-supernode': [119, 119, 119, 255], // Dark gray
+    vpn: [204, 153, 255, 255], // Light purple
+    fiber: [246, 190, 0, 255], // Golden yellow
 }
 
 export function getNodeIconKey(type = '', status = ''): string {

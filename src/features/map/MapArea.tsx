@@ -3,11 +3,11 @@ import { MapboxOverlay } from '@deck.gl/mapbox'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import NodePopup from '../ui/NodePopup'
 
-import { selectNodes } from '../nodes/nodeSlice'
+import { selectNodes, selectNodeLegendFilters } from '../nodes/nodeSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { setSelectedNode, selectSelectedNode } from '../ui/uiSlice'
+import { setSelectedNode, selectSelectedNode} from '../ui/uiSlice'
 import { createNodeLayer } from '../nodes/NodeLayer'
-import { selectLinks } from '../links/linkSlice'
+import { selectLinks, selectFilters as selectLinkFilters } from '../links/linkSlice'
 import { selectDevices } from '../devices/deviceSlice'
 import { createLinkLayer } from '../links/LinkLayer'
 import type { Node } from '../../types/models'
@@ -23,7 +23,9 @@ const MapArea = ({ map }: MapAreaProps) => {
     const dispatch = useAppDispatch()
 
     const nodes = useAppSelector(selectNodes)
+    const filters = useAppSelector(selectNodeLegendFilters)
     const links = useAppSelector(selectLinks)
+    const linkFilters = useAppSelector(selectLinkFilters)
     const devices = useAppSelector(selectDevices)
     const sectors = useAppSelector(selectSectors)
     const mapState = useAppSelector(selectMap)
@@ -31,7 +33,7 @@ const MapArea = ({ map }: MapAreaProps) => {
     const selectedNode = useAppSelector(selectSelectedNode)
     const selectedNodeId = selectedNode?.id ?? null
 
-    console.log('selectedNodeId:', selectedNodeId)
+    // console.log('selectedNodeId:', selectedNodeId)
 
     const overlayRef = useRef<MapboxOverlay | null>(null)
 
@@ -63,6 +65,15 @@ const MapArea = ({ map }: MapAreaProps) => {
             return
         }
 
+        const filteredNodes = nodes.filter((node) => {
+            const sameType = filters.type === 'all' || node.type === filters.type;
+            const sameStatus = (filters.active && node.status === 'Active') || (filters.inactive && node.status === 'Inactive');
+            return sameType && sameStatus;
+            
+    })
+    
+    const visibleNodes = filteredNodes
+
         function onNodeClick(node: Node) {
             dispatch(setSelectedNode(node))
 
@@ -75,12 +86,17 @@ const MapArea = ({ map }: MapAreaProps) => {
             }))
         }
 
+
+
+
+
+
         const sectorLayer = createSectorLayer( sectors, selectedNodeId )
 
-        const linkLayer = createLinkLayer( links, devices )
+        const linkLayer = createLinkLayer( links, devices, nodes, filters, linkFilters)
 
         const nodeLayer = createNodeLayer({
-            nodes,
+            nodes: visibleNodes,
             selectedNodeId,
             onNodeClick
         })
@@ -92,7 +108,7 @@ const MapArea = ({ map }: MapAreaProps) => {
                 nodeLayer,
             ],
         })
-    }, [nodes, links, devices, sectors, selectedNodeId, dispatch])
+    }, [map, nodes, filters, links, devices, sectors, selectedNodeId, linkFilters, dispatch])
 
     return (
         <NodePopup
@@ -100,7 +116,6 @@ const MapArea = ({ map }: MapAreaProps) => {
             node={selectedNode}
         />
     )
-    return null
 }
 
 export default MapArea

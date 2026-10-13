@@ -97,7 +97,12 @@ app.get('/api/devices', async (req, res) => {
 
         const devices = results
             .filter((d) => d.longitude != null && d.latitude != null)
-            .map((d) => ({ id: d.id, longitude: d.longitude, latitude: d.latitude }))
+            .map((d) => ({
+                id: d.id,
+                longitude: d.longitude,
+                latitude: d.latitude,
+                node: {id: d.node.id, network_number: d.node.network_number },
+            }))
 
         res.json(devices)
     } catch (err) {
