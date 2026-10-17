@@ -1,5 +1,7 @@
 import { PolygonLayer } from '@deck.gl/layers'
-import type { Sector } from '../../types/models'
+import type { Node, NodeLegendFilters, Sector } from '../../types/models'
+import { isNodeVisible } from '../nodes/NodeLayer'
+import type { SectorFilters } from './sectorSlice'
 import { getSectorColor, shouldShowSector } from './SectorStyles'
 
 type Position = [number, number] // [long, lat] bc deckgl
@@ -83,10 +85,34 @@ function getSectorPolygon(sector: Sector) {
     return points // send to deck gl
 }
 
+function getSectorType(sector: Sector): keyof SectorFilters {
+    if (sector.width >= 360 ) {
+        return 'omni'
+    } else if (sector.width >= 80) {
+        return 'wide'
+    } else {
+        return 'narrow'
+    }
+}
+
 // creates deckgl layer to draw all visible sectors either all or one by selectedNodeId
-export function createSectorLayer( sectors: Sector[], selectedNodeId: string | null ) {
+export function createSectorLayer( sectors: Sector[], selectedNodeId: string | null, nodes: Node[], nodeFilters: NodeLegendFilters, sectorFilters: SectorFilters) {
+    const nodeByID = new Map(nodes.map((node) => [node.id, node]))
+    
     const visibleSectors = sectors.filter((sector) => {
-        return shouldShowSector(sector, selectedNodeId)
+        if (!shouldShowSector(sector, selectedNodeId)) return false
+        
+        const node = nodeByID.get(sector.node.id)
+
+        if (!node) {
+            console.log('no node for sector: ', sector.node.id)
+            return false
+        }
+        if (!isNodeVisible(node, nodeFilters)) return false
+        
+        if(!sectorFilters[getSectorType(sector)]) return false
+        
+        return true
     })
 
     return new PolygonLayer<Sector>({
