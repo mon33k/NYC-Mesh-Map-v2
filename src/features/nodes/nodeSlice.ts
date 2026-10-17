@@ -23,7 +23,7 @@ const initialState: NodeState = {
   status: "idle",
   error: null,
   legendFilters: {
-    type: "all",
+    types: [],
     active: true,
     inactive: true,
   },
@@ -42,14 +42,19 @@ const nodeSlice = createSlice({
       state.status = "idle";
     },
 
-    setNodeTypeFilter(state, action: PayloadAction<string>) {
-      console.log("Selected type:", action.payload);
-      console.log("Previous type:", state.legendFilters.type);
+    toggleNodeType(state, action: PayloadAction<string>) {
+      const clickedType = action.payload
+      const selectedTypes = state.legendFilters.types
 
-      state.legendFilters.type = action.payload;
-
-      console.log("Updated type:", state.legendFilters.type);
-      },
+      if (selectedTypes.includes(clickedType)) {
+        state.legendFilters.types = selectedTypes.filter((type) => type !== clickedType)
+      } else {
+        selectedTypes.push(clickedType)
+      }
+    },
+    clearNodeTypes(state) {
+        state.legendFilters.types = []
+    },  
     
     toggleActive(state) {
       state.legendFilters.active = !state.legendFilters.active;
@@ -81,7 +86,8 @@ export const selectNodeLegendFilters = (state: RootState) =>
 export const {
   setNodes,
   clearNodes,
-  setNodeTypeFilter,
+  clearNodeTypes,
+  toggleNodeType,
   toggleActive,
   toggleInactive,
 } = nodeSlice.actions;

@@ -60,7 +60,7 @@ const MapContainer = () => {
 
             {map && <MapArea map={map} />}
 
-            <NodeLegendPanel /> 
+         
             <MapSearch />
             <NodeInfoPanel />
 
@@ -70,8 +70,8 @@ const MapContainer = () => {
                 className="absolute right-4 top-4 z-30 rounded bg-white px-2 py-2 text-xs shadow sm:px-3 sm:text-sm"
                 >
                 Reset view
-            </button>;
-
+            </button>
+            <NodeLegendPanel /> 
         </div>
     )
 }

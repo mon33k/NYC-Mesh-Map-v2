@@ -1,5 +1,6 @@
 import { LineLayer } from '@deck.gl/layers'
 import type { Device, Link, Node, NodeLegendFilters } from '../../types/models'
+import { isNodeVisible } from '../nodes/NodeLayer'
 import type { Filters as LinkTypeFilters } from './linkSlice'
 import { getLinkColor } from './LinkColors'
 
@@ -8,74 +9,51 @@ type MapLink = Link & {
     targetPosition: [number, number]
 }
 
-const linkTypeFilterKey: Record<string, keyof LinkTypeFilters> = {
-    VPN: 'vpn',
-    Fiber: 'fiber',
-    Wireless: 'wireless',
-    Ethernet: 'ethernet',
+function getLinkFilterKey(link: Link): keyof LinkTypeFilters {
+    if (link.type === 'VPN') {
+        return 'vpn'
+    } else if (link.type === 'Fiber') {
+        return 'fiber'
+    } else if (link.type === 'Ethernet') {
+        return 'ethernet'
+    } else {
+        return 'wireless'
+    }
 }
 
 
 
 export function createLinkLayer( links: Link[], devices: Device[], nodes: Node[], nodeFilters: NodeLegendFilters, linkFilters: LinkTypeFilters) {
+    const deviceByID = new Map(devices.map((device) => [device.id, device]))
+    const nodeByID = new Map(nodes.map((node) => [node.id, node]))
     const mapLinks: MapLink[] = []
 
     for (const link of links) {
-        const fromDevice = devices.find((device) => {
-            return device.id === link.from_device.id
-        })
+        if (!linkFilters[getLinkFilterKey(link)]) {
+            continue
+        }
+            
+        const fromDevice = deviceByID.get(link.from_device.id)
 
-        const toDevice = devices.find((device) => {
-            return device.id === link.to_device.id
-        })
+        const toDevice = deviceByID.get(link.to_device.id)
 
         if (!fromDevice || !toDevice) {
-            // console.log("device missing node:", {fromDevice, toDevice})
                 continue
         }   
 
-        //  if (!fromDevice.id || !toDevice.id) {
-        //     console.log("device missing node:", {fromDevice, toDevice})
-        //         continue
-        // }   
-        const fromNode = nodes.find((node) => {
-            return node.id === fromDevice.node?.id
-        })
-
-        const toNode = nodes.find((node) => {
-            return node.id === toDevice.node?.id
-        })
+         
+        const fromNode = nodeByID.get(fromDevice.node?.id ?? '')
+        const toNode = nodeByID.get(toDevice.node?.id ?? '')
+        
 
         // dont draw link if to or from device is missing
         if (!fromNode || !toNode) {
             continue
         }
 
-        // const sameFrom = (filters.type === 'all' || fromNode.type === filters.type) && ((fromNode.status === 'Active' && filters.active) || (toNode.status === 'Inactive' && filters.inactive)) 
-        const sameFrom = (nodeFilters.type === 'all' ||
-            fromNode.type === nodeFilters.type) && ((fromNode.status === 'Active' && nodeFilters.active) ||
-            (fromNode.status === 'Inactive' && nodeFilters.inactive))
-        const sameTo = (nodeFilters.type === 'all' ||
-            toNode.type === nodeFilters.type) && ((toNode.status === 'Active' && nodeFilters.active) ||
-            (toNode.status === 'Inactive' && nodeFilters.inactive))
-
-        if (!sameFrom && !sameTo) { continue }
-        
-        const filterKey = linkTypeFilterKey[link.type ?? '']
-
-        if (filterKey && !linkFilters[filterKey]) {
+        if (!isNodeVisible(fromNode, nodeFilters) && !isNodeVisible(toNode, nodeFilters)) {
             continue
         }
-
-        // dont draw link if device has no map coords
-        // if (
-        //     fromDevice.longitude == null ||
-        //     fromDevice.latitude == null ||
-        //     toDevice.longitude == null ||
-        //     toDevice.latitude == null
-        // ) {
-        //     continue
-        // }
 
         if (
             !Number.isFinite(fromDevice.longitude) ||
@@ -96,11 +74,7 @@ export function createLinkLayer( links: Link[], devices: Device[], nodes: Node[]
         })
     }
 
-    console.log('Link layer counts:', {
-        links: links.length,
-        devices: devices.length,
-        drawableLinks: mapLinks.length,
-    })
+ 
 
 
     return new LineLayer<MapLink>({
@@ -113,7 +87,7 @@ export function createLinkLayer( links: Link[], devices: Device[], nodes: Node[]
             return link.targetPosition
         },
         getColor: getLinkColor,
-        getWidth: 2,
+        getWidth: 2.5,
         widthUnits: 'pixels',
         pickable: true,
     })
