@@ -1,12 +1,38 @@
 import { ScatterplotLayer } from '@deck.gl/layers'
-import type { Node } from '../../types/models'
+import type { Node, NodeLegendFilters } from '../../types/models'
 import { getNodeColor, getNodeSize } from './NodeColors'
-// import { selectSelectedNode } from '../ui/uiSlice'
 
 type NodeLayerProps = {
     nodes: Node[]
     selectedNodeId: string | null
     onNodeClick: (node: Node) => void
+}
+
+
+
+export function matchesNodeType(node: Node, filters: NodeLegendFilters) {
+    const showAllTypes = filters.types.length === 0
+
+    if (showAllTypes) {
+        return true
+    }
+    return filters.types.includes(node.type)
+}
+
+export function isNodeVisible(node: Node, filters: NodeLegendFilters) {
+    if (!matchesNodeType(node, filters)) {
+        return false
+    }
+
+    if (node.status === 'Active') {
+        return filters.active
+    }
+
+    if (node.status === 'Inactive') {
+        return filters.inactive
+    }
+
+    return false
 }
 
 export function createNodeLayer({ nodes, onNodeClick, selectedNodeId }: NodeLayerProps) {

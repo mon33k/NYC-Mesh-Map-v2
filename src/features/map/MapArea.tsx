@@ -6,13 +6,13 @@ import NodePopup from '../ui/NodePopup'
 import { selectNodes, selectNodeLegendFilters } from '../nodes/nodeSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { setSelectedNode, selectSelectedNode} from '../ui/uiSlice'
-import { createNodeLayer } from '../nodes/NodeLayer'
+import { createNodeLayer, isNodeVisible } from '../nodes/NodeLayer'
 import { selectLinks, selectFilters as selectLinkFilters } from '../links/linkSlice'
 import { selectDevices } from '../devices/deviceSlice'
 import { createLinkLayer } from '../links/LinkLayer'
 import type { Node } from '../../types/models'
 import { flyTo, selectMap } from './mapSlice'
-import { selectSectors } from '../sectors/sectorSlice'
+import { selectSectors, selectSectorFilters} from '../sectors/sectorSlice'
 import { createSectorLayer } from '../sectors/SectorLayer'
 
 type MapAreaProps = {
@@ -23,11 +23,12 @@ const MapArea = ({ map }: MapAreaProps) => {
     const dispatch = useAppDispatch()
 
     const nodes = useAppSelector(selectNodes)
-    const filters = useAppSelector(selectNodeLegendFilters)
+    const nodeFilters = useAppSelector(selectNodeLegendFilters)
     const links = useAppSelector(selectLinks)
     const linkFilters = useAppSelector(selectLinkFilters)
     const devices = useAppSelector(selectDevices)
     const sectors = useAppSelector(selectSectors)
+    const sectorFilters = useAppSelector(selectSectorFilters)
     const mapState = useAppSelector(selectMap)
 
     const selectedNode = useAppSelector(selectSelectedNode)
@@ -65,14 +66,10 @@ const MapArea = ({ map }: MapAreaProps) => {
             return
         }
 
-        const filteredNodes = nodes.filter((node) => {
-            const sameType = filters.type === 'all' || node.type === filters.type;
-            const sameStatus = (filters.active && node.status === 'Active') || (filters.inactive && node.status === 'Inactive');
-            return sameType && sameStatus;
-            
-    })
+       
     
-    const visibleNodes = filteredNodes
+    
+    const visibleNodes = nodes.filter((node) => isNodeVisible(node, nodeFilters))
 
         function onNodeClick(node: Node) {
             dispatch(setSelectedNode(node))
@@ -91,9 +88,9 @@ const MapArea = ({ map }: MapAreaProps) => {
 
 
 
-        const sectorLayer = createSectorLayer( sectors, selectedNodeId )
+        const sectorLayer = createSectorLayer( sectors, selectedNodeId, nodes, nodeFilters, sectorFilters )
 
-        const linkLayer = createLinkLayer( links, devices, nodes, filters, linkFilters)
+        const linkLayer = createLinkLayer( links, devices, nodes, nodeFilters, linkFilters)
 
         const nodeLayer = createNodeLayer({
             nodes: visibleNodes,
@@ -108,7 +105,7 @@ const MapArea = ({ map }: MapAreaProps) => {
                 nodeLayer,
             ],
         })
-    }, [map, nodes, filters, links, devices, sectors, selectedNodeId, linkFilters, dispatch])
+    }, [map, nodes, nodeFilters, links, devices, sectors, selectedNodeId, linkFilters, sectorFilters, dispatch])
 
     return (
         <NodePopup
