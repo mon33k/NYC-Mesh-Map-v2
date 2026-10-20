@@ -31,9 +31,9 @@ const NodeLegend = () => {
     const sectorFilters = useAppSelector(selectSectorFilters)
 
     const sectorOptions = [
-        ['omni', 'Omni (360°)'],
-        ['wide', 'Wide (80° to 359°)'],
-        ['narrow', 'Narrow (under 80°)'],
+        ['omni', 'Omni'],
+        ['wide', '60 Ghz'],
+        ['narrow', '5 Ghz'],
     ] as const
 
     useEffect(() => {
