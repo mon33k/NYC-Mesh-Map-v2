@@ -45,19 +45,19 @@ const NodeLegend = () => {
 
 
     return (
-        <section className={`absolute right-4 top-16 z-20 max-h-[50vh] overflow-y-auto rounded-lg bg-white px-3 py-2 shadow-lg ${ open ? 'w-40 sm:px-3' : 'w-auto' }`}>
-            <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-center gap-2 text-xs sm:px-3 text-sm">
+        <section className={`absolute right-4 top-16 z-30 max-h-[50vh] overflow-y-auto rounded bg-white px-2 py-2 shadow  ${ open ? 'w-48' : 'w-auto' }`}>
+            <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex items-center gap-2 px-2 text-xs sm:px-3 sm:text-sm">
                 {open ? 'Legend ▾' : 'Legend ▸'}
             </button>
             
             {open && (
                 <div className="mt-3">
                     <fieldset>
-                        <legend className="mb-2 text-xs font-medium text-gray-500">
+                        <legend className="w-full border-b border-gray-300 p-1 text-xs font-medium text-gray-500">
                             Node type
                         </legend>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="mt-2 flex flex-col gap-2">
                             <label className="flex cursor-pointer items-center gap-2 text-sm">
                                 <input
                                     type="checkbox"
@@ -102,8 +102,8 @@ const NodeLegend = () => {
                         </div>
                     </fieldset>
 
-                    <fieldset className="mt-3 border-t pt-3">
-                        <legend className="text-xs font-medium text-gray-500">
+                    <fieldset className="mt-3">
+                        <legend className="w-full border-b border-gray-300 p-1 text-xs font-medium text-gray-500">
                             Links
                         </legend>
 
@@ -133,25 +133,26 @@ const NodeLegend = () => {
                         </div>
                     </fieldset>
 
-                      <fieldset className="mt-3 border-t pt-3">
-                        <legend className="text-xs font-medium text-gray-500">
+                      <fieldset className="mt-3">
+                        <legend className="w-full border-b border-gray-300 p-1 text-xs font-medium text-gray-500">
                             Sectors
                         </legend>
-
-                        {sectorOptions.map(([key, label]) => (
-                            <label key={key} className="flex items-center gap-2 text-sm capitalize">
-                                <input
-                                    type="checkbox"
-                                    checked={sectorFilters[key]}
-                                    onChange={() => dispatch(toggleSectorFilter(key))}
-                                />
-                                {label}
-                            </label>
-                        ))}
+                        <div className="mt-2 flex flex-col gap-2">
+                            {sectorOptions.map(([key, label]) => (
+                                <label key={key} className="flex items-center gap-2 text-sm capitalize">
+                                    <input
+                                        type="checkbox"
+                                        checked={sectorFilters[key]}
+                                        onChange={() => dispatch(toggleSectorFilter(key))}
+                                    />
+                                    {label}
+                                </label>
+                            ))}
+                        </div>
                     </fieldset>
 
-                    <fieldset className="mt-3 border-t pt-3">
-                        <legend className="text-xs font-medium text-gray-500">
+                    <fieldset className="mt-3">
+                        <legend className="w-full border-b border-gray-300 p-1 text-xs font-medium text-gray-500">
                             Status
                         </legend>
 
