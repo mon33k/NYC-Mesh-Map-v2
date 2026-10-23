@@ -14,7 +14,6 @@ import { fetchDevices } from '../devices/deviceSlice'
 import { fetchSectors } from '../sectors/sectorSlice'
 
 import { defaultCenter, defaultZoom } from '../../types/models'
-import { setMapReady } from './mapSlice'
 
 const MapContainer = () => {
     const dispatch = useAppDispatch()
